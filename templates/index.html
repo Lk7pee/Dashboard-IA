@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Explosão da Inteligência Artificial</title>
+    {% if static_mode %}
+    <link rel="stylesheet" href="./static/css/style.css">
+    {% else %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% endif %}
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="#topo" aria-label="Início do dashboard">
+            <span class="brand-mark">IA</span>
+            <span>Dashboard</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Seções do dashboard">
+            <a href="#investimentos">Investimentos</a>
+            <a href="#adocao">Adoção</a>
+            <a href="#ferramentas">Ferramentas</a>
+            <a href="#contexto">Contexto</a>
+        </nav>
+
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar tema claro e escuro">
+            <span id="themeIcon" aria-hidden="true">◐</span>
+            <span>Tema</span>
+        </button>
+    </header>
+
+    <main id="topo" class="page-shell">
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">Panorama global de tecnologia</p>
+                <h1>A Explosão da Inteligência Artificial</h1>
+                <p class="subtitle">
+                    Adoção, investimentos e impacto das ferramentas de IA no mercado global
+                </p>
+            </div>
+            <div class="hero-panel" aria-label="Resumo do tema">
+                <span class="pulse-dot"></span>
+                <strong>Dados reais e editáveis</strong>
+                <p>Investimentos da Our World in Data, CSV local e versão estática para apresentação.</p>
+            </div>
+        </section>
+
+        <section class="summary-grid" aria-label="Cards de resumo">
+            {% for card in cards %}
+            <article class="summary-card reveal-card">
+                <span class="summary-label">{{ card.label }}</span>
+                <strong>{{ card.value }}</strong>
+                <p>{{ card.detail }}</p>
+            </article>
+            {% endfor %}
+        </section>
+
+        <section class="chart-section" id="investimentos">
+            {% if dashboard_data.investimentos.erro %}
+            <div class="data-alert">
+                {{ dashboard_data.investimentos.erro }}
+            </div>
+            {% endif %}
+
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Capital e inovação</p>
+                    <h2>Investimento privado em IA</h2>
+                </div>
+
+                <label class="select-control" for="countrySelect">
+                    <span>Visualização</span>
+                    <select id="countrySelect" name="countrySelect"></select>
+                </label>
+            </div>
+            <div class="chart-frame">
+                <div id="investmentChart" class="chart" role="img" aria-label="Gráfico de investimento em IA por ano"></div>
+            </div>
+            <p class="source-note">
+                Fonte: Our World in Data, com dados derivados do AI Index Report / Stanford. Os valores representam
+                investimento privado externo em empresas de IA e não incluem investimento público, P&amp;D interno ou
+                infraestrutura própria.
+            </p>
+        </section>
+
+        <section class="dashboard-grid">
+            <article class="chart-section" id="adocao">
+                <div class="section-heading compact">
+                    <div>
+                        <p class="eyebrow">Transformação setorial</p>
+                        <h2>Adoção por setor</h2>
+                    </div>
+                </div>
+                <div class="chart-frame">
+                    <div id="sectorChart" class="chart" role="img" aria-label="Gráfico de adoção de IA por setor"></div>
+                </div>
+            </article>
+
+            <article class="chart-section" id="ferramentas">
+                <div class="section-heading compact">
+                    <div>
+                        <p class="eyebrow">Uso de ferramentas</p>
+                        <h2>Crescimento de usuários</h2>
+                    </div>
+                </div>
+                <div class="chart-frame">
+                    <div id="trafficChart" class="chart" role="img" aria-label="Gráfico de crescimento de usuários por ferramenta de IA"></div>
+                </div>
+            </article>
+        </section>
+
+        <section class="context-section" id="contexto">
+            <div>
+                <p class="eyebrow">Relevância acadêmica</p>
+                <h2>Por que acompanhar a IA?</h2>
+            </div>
+            <div class="context-copy">
+                <p>
+                    A inteligência artificial é uma das maiores tendências atuais da tecnologia porque altera a forma como pessoas,
+                    empresas e governos lidam com informação, produtividade e inovação.
+                </p>
+                <p>
+                    Empresas estão usando IA para automação de processos, atendimento ao cliente, análise de dados, criação de
+                    conteúdo, programação, marketing e apoio à tomada de decisão. Esse avanço também exige debate sobre impactos
+                    econômicos, qualificação profissional, privacidade e responsabilidade no uso dos dados.
+                </p>
+                <p>
+                    Este dashboard combina investimento real de fonte pública com dados demonstrativos de adoção e ferramentas,
+                    permitindo analisar tendências de mercado de forma visual e simples para uma apresentação acadêmica.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        Dashboard desenvolvido para fins acadêmicos. Investimentos com fonte pública e demais dados demonstrativos para estudo.
+    </footer>
+
+    <script id="dashboardData" type="application/json">{{ dashboard_data | tojson }}</script>
+    {% if static_mode %}
+    <script src="./static/js/plotly.min.js"></script>
+    <script src="./static/js/script.js"></script>
+    {% else %}
+    <script src="{{ url_for('static', filename='js/plotly.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% endif %}
+</body>
+</html>
