@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Explosão da Inteligência Artificial</title>
+    <title>Dashboard de Governança - IA no Mercado Global</title>
     {% if static_mode %}
     <link rel="stylesheet" href="./static/css/style.css">
     {% else %}
@@ -11,131 +11,231 @@
     {% endif %}
 </head>
 <body>
-    <header class="topbar">
-        <a class="brand" href="#topo" aria-label="Início do dashboard">
-            <span class="brand-mark">IA</span>
-            <span>Dashboard</span>
-        </a>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <a class="brand" href="#topo" aria-label="Início do dashboard">
+                <span class="brand-mark">IA</span>
+                <span>
+                    <strong>IA</strong>
+                    <small>GOVERNANÇA</small>
+                </span>
+            </a>
 
-        <nav class="nav-links" aria-label="Seções do dashboard">
-            <a href="#investimentos">Investimentos</a>
-            <a href="#adocao">Adoção</a>
-            <a href="#ferramentas">Ferramentas</a>
-            <a href="#contexto">Contexto</a>
-        </nav>
+            <nav class="side-nav" aria-label="Menu principal">
+                <a class="active" href="#topo"><span>⌂</span> Visão Geral</a>
+                <a href="#bsc"><span>◎</span> BSC IA</a>
+                <a href="#kpis"><span>▥</span> KPIs</a>
+                <a href="#dados"><span>◫</span> Dados</a>
+                <a href="#arquitetura"><span>▣</span> Arquitetura</a>
+            </nav>
 
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar tema claro e escuro">
-            <span id="themeIcon" aria-hidden="true">◐</span>
-            <span>Tema</span>
-        </button>
-    </header>
+            <section class="sidebar-note">
+                <strong>Leitura estratégica</strong>
+                <p>Investimento, adoção, concentração de mercado e uso das ferramentas de IA.</p>
+            </section>
+        </aside>
 
-    <main id="topo" class="page-shell">
-        <section class="hero">
-            <div class="hero-copy">
-                <p class="eyebrow">Panorama global de tecnologia</p>
-                <h1>A Explosão da Inteligência Artificial</h1>
-                <p class="subtitle">
-                    Adoção, investimentos e impacto das ferramentas de IA no mercado global
-                </p>
-            </div>
-            <div class="hero-panel" aria-label="Resumo do tema">
-                <span class="pulse-dot"></span>
-                <strong>Dados reais e editáveis</strong>
-                <p>Investimentos da Our World in Data, CSV local e versão estática para apresentação.</p>
-            </div>
-        </section>
+        <main class="dashboard-main" id="topo">
+            <header class="dashboard-header">
+                <div>
+                    <h1>Dashboard de Governança - Inteligência Artificial</h1>
+                    <p>Monitoramento estratégico com Balanced Scorecard, KPIs e indicadores de mercado global.</p>
+                </div>
 
-        <section class="summary-grid" aria-label="Cards de resumo">
-            {% for card in cards %}
-            <article class="summary-card reveal-card">
-                <span class="summary-label">{{ card.label }}</span>
-                <strong>{{ card.value }}</strong>
-                <p>{{ card.detail }}</p>
-            </article>
-            {% endfor %}
-        </section>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar tema claro e escuro">
+                        <span id="themeIcon" aria-hidden="true">◐</span>
+                        <span>Tema</span>
+                    </button>
+                    <span class="user-chip">AD</span>
+                </div>
+            </header>
 
-        <section class="chart-section" id="investimentos">
+            <section class="filters-panel" aria-label="Filtros do dashboard">
+                <label class="filter-control" for="periodSelect">
+                    <span>Período</span>
+                    <select id="periodSelect" name="periodSelect">
+                        <option>2016 - 2025</option>
+                    </select>
+                </label>
+
+                <label class="filter-control" for="countrySelect">
+                    <span>País / região</span>
+                    <select id="countrySelect" name="countrySelect"></select>
+                </label>
+
+                <label class="filter-control" for="indicatorSelect">
+                    <span>Indicador</span>
+                    <select id="indicatorSelect" name="indicatorSelect">
+                        <option>Investimento privado em IA</option>
+                        <option>Adoção por setor</option>
+                        <option>Uso de ferramentas</option>
+                    </select>
+                </label>
+
+                <button class="refresh-button" id="refreshDashboard" type="button">
+                    <span>↻</span>
+                    Atualizar
+                </button>
+            </section>
+
             {% if dashboard_data.investimentos.erro %}
             <div class="data-alert">
                 {{ dashboard_data.investimentos.erro }}
             </div>
             {% endif %}
 
-            <div class="section-heading">
-                <div>
-                    <p class="eyebrow">Capital e inovação</p>
-                    <h2>Investimento privado em IA</h2>
-                </div>
-
-                <label class="select-control" for="countrySelect">
-                    <span>Visualização</span>
-                    <select id="countrySelect" name="countrySelect"></select>
-                </label>
-            </div>
-            <div class="chart-frame">
-                <div id="investmentChart" class="chart" role="img" aria-label="Gráfico de investimento em IA por ano"></div>
-            </div>
-            <p class="source-note">
-                Fonte: Our World in Data, com dados derivados do AI Index Report / Stanford. Os valores representam
-                investimento privado externo em empresas de IA e não incluem investimento público, P&amp;D interno ou
-                infraestrutura própria.
-            </p>
-        </section>
-
-        <section class="dashboard-grid">
-            <article class="chart-section" id="adocao">
-                <div class="section-heading compact">
-                    <div>
-                        <p class="eyebrow">Transformação setorial</p>
-                        <h2>Adoção por setor</h2>
+            <section class="bsc-cards" id="bsc" aria-label="Perspectivas do Balanced Scorecard">
+                {% for card in cards %}
+                <article class="bsc-card reveal-card {{ card.accent }}">
+                    <div class="card-heading">
+                        <span class="card-icon">{{ card.perspective[0] }}</span>
+                        <div>
+                            <h2>{{ card.perspective }}</h2>
+                            <p>Objetivo: {{ card.objective }}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="chart-frame">
-                    <div id="sectorChart" class="chart" role="img" aria-label="Gráfico de adoção de IA por setor"></div>
-                </div>
-            </article>
-
-            <article class="chart-section" id="ferramentas">
-                <div class="section-heading compact">
-                    <div>
-                        <p class="eyebrow">Uso de ferramentas</p>
-                        <h2>Crescimento de usuários</h2>
+                    <span class="kpi-label">KPI</span>
+                    <p class="kpi-name">{{ card.kpi }}</p>
+                    <div class="kpi-result">
+                        <strong>{{ card.value }}</strong>
+                        <span>{{ card.goal }}</span>
                     </div>
-                </div>
-                <div class="chart-frame">
-                    <div id="trafficChart" class="chart" role="img" aria-label="Gráfico de crescimento de usuários por ferramenta de IA"></div>
-                </div>
-            </article>
-        </section>
+                    <p class="trend-line">{{ card.trend }}</p>
+                </article>
+                {% endfor %}
+            </section>
 
-        <section class="context-section" id="contexto">
-            <div>
-                <p class="eyebrow">Relevância acadêmica</p>
-                <h2>Por que acompanhar a IA?</h2>
-            </div>
-            <div class="context-copy">
-                <p>
-                    A inteligência artificial é uma das maiores tendências atuais da tecnologia porque altera a forma como pessoas,
-                    empresas e governos lidam com informação, produtividade e inovação.
-                </p>
-                <p>
-                    Empresas estão usando IA para automação de processos, atendimento ao cliente, análise de dados, criação de
-                    conteúdo, programação, marketing e apoio à tomada de decisão. Esse avanço também exige debate sobre impactos
-                    econômicos, qualificação profissional, privacidade e responsabilidade no uso dos dados.
-                </p>
-                <p>
-                    Este dashboard combina investimento real de fonte pública com dados demonstrativos de adoção e ferramentas,
-                    permitindo analisar tendências de mercado de forma visual e simples para uma apresentação acadêmica.
-                </p>
-            </div>
-        </section>
-    </main>
+            <section class="analytics-grid" id="kpis">
+                <article class="panel panel-large">
+                    <div class="section-heading">
+                        <div>
+                            <h2>Tendência anual de investimento privado</h2>
+                            <p>Valores reais em bilhões de dólares, por país ou visão consolidada.</p>
+                        </div>
+                    </div>
+                    <div class="chart-frame">
+                        <div id="investmentChart" class="chart" role="img" aria-label="Gráfico de investimento privado em IA"></div>
+                    </div>
+                    <p class="source-note">
+                        Fonte: Our World in Data, com dados derivados do AI Index Report / Stanford. Os valores representam
+                        investimento privado externo em empresas de IA e não incluem investimento público, P&amp;D interno ou
+                        infraestrutura própria.
+                    </p>
+                </article>
 
-    <footer class="footer">
-        Dashboard desenvolvido para fins acadêmicos. Investimentos com fonte pública e demais dados demonstrativos para estudo.
-    </footer>
+                <article class="panel">
+                    <div class="section-heading compact">
+                        <div>
+                            <h2>Indicadores operacionais</h2>
+                            <p>Último ano comparado à média histórica.</p>
+                        </div>
+                    </div>
+                    <div class="chart-frame compact-frame">
+                        <div id="indicatorChart" class="chart chart-small" role="img" aria-label="Indicadores operacionais de investimento"></div>
+                    </div>
+                </article>
+
+                <article class="panel">
+                    <div class="section-heading compact">
+                        <div>
+                            <h2>Maturidade média de adoção</h2>
+                            <p>Média dos setores cadastrados no CSV local.</p>
+                        </div>
+                    </div>
+                    <div class="chart-frame compact-frame">
+                        <div id="adoptionDonut" class="chart chart-small" role="img" aria-label="Maturidade média de adoção de IA"></div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="analytics-grid lower-grid">
+                <article class="panel" id="dados">
+                    <div class="section-heading compact">
+                        <div>
+                            <h2>Adoção por setor</h2>
+                            <p>Setores com maior velocidade de adoção de IA.</p>
+                        </div>
+                    </div>
+                    <div class="chart-frame">
+                        <div id="sectorChart" class="chart" role="img" aria-label="Gráfico de adoção de IA por setor"></div>
+                    </div>
+                </article>
+
+                <article class="panel">
+                    <div class="section-heading compact">
+                        <div>
+                            <h2>Crescimento de usuários</h2>
+                            <p>Ferramentas de IA em milhões de usuários.</p>
+                        </div>
+                    </div>
+                    <div class="chart-frame">
+                        <div id="trafficChart" class="chart" role="img" aria-label="Gráfico de crescimento de usuários por ferramenta de IA"></div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="bottom-grid">
+                <article class="panel table-panel">
+                    <div class="section-heading compact">
+                        <div>
+                            <h2>Balanced Scorecard da IA - Resumo estratégico</h2>
+                            <p>Ligação entre perspectiva, objetivo, KPI e resultado apresentado.</p>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Perspectiva</th>
+                                    <th>Objetivo estratégico</th>
+                                    <th>KPI</th>
+                                    <th>Referência</th>
+                                    <th>Resultado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in dashboard_data.bsc %}
+                                <tr>
+                                    <td>{{ row.perspective }}</td>
+                                    <td>{{ row.objective }}</td>
+                                    <td>{{ row.kpi }}</td>
+                                    <td>{{ row.target }}</td>
+                                    <td>{{ row.result }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <aside class="side-panels" id="arquitetura">
+                    <article class="panel architecture-panel">
+                        <h2>Arquitetura da solução</h2>
+                        <ul>
+                            <li><strong>Back-end:</strong> Flask</li>
+                            <li><strong>Tratamento:</strong> Pandas</li>
+                            <li><strong>Base:</strong> CSV local</li>
+                            <li><strong>Gráficos:</strong> Plotly</li>
+                            <li><strong>Deploy:</strong> HTML estático</li>
+                        </ul>
+                    </article>
+
+                    <article class="panel explanation-panel">
+                        <h2>Ideia central</h2>
+                        <p>
+                            O dashboard transforma dados de IA em indicadores de governança. A camada BSC separa a análise
+                            em finanças, mercado, processos e aprendizado, facilitando a leitura executiva.
+                        </p>
+                    </article>
+                </aside>
+            </section>
+
+            <footer class="footer">
+                Dashboard desenvolvido para fins acadêmicos. Investimentos com fonte pública e demais dados demonstrativos para estudo.
+            </footer>
+        </main>
+    </div>
 
     <script id="dashboardData" type="application/json">{{ dashboard_data | tojson }}</script>
     {% if static_mode %}

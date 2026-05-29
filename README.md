@@ -8,6 +8,19 @@ O tema é:
 
 O dashboard mostra investimentos privados em IA, adoção por setor e crescimento de ferramentas como ChatGPT, Midjourney, Claude, Gemini e Copilot.
 
+## Modelo de governança usado
+
+A interface foi organizada no formato de **dashboard de governança**, parecido com um painel executivo de KPIs.
+
+O painel usa a lógica do **Balanced Scorecard (BSC)**, separando a análise em quatro perspectivas:
+
+- **Financeira**: acompanha o investimento privado global em IA.
+- **Mercado**: mostra a adoção de IA por setores da economia.
+- **Processos**: avalia a concentração internacional dos investimentos.
+- **Aprendizado**: acompanha o crescimento do uso das ferramentas de IA.
+
+Essa estrutura facilita a apresentação porque mostra que o dashboard não é apenas um conjunto de gráficos. Ele conecta dados, objetivos estratégicos, KPIs e resultados.
+
 ## Formas de usar o projeto
 
 O projeto funciona de duas formas:
@@ -69,7 +82,7 @@ dashboard-ia/
 - baixa dados reais de investimento em IA da Our World in Data;
 - trata os dados com Pandas;
 - salva o resultado em `data/investimentos_ia.csv`;
-- calcula os cards de resumo;
+- calcula os cards no formato Balanced Scorecard;
 - envia os dados para o template Flask;
 - gera o arquivo estático `index.html`;
 - inicia o servidor local quando você roda `python app.py`.

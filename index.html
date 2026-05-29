@@ -3,165 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Explosão da Inteligência Artificial</title>
+    <title>Dashboard de Governança - IA no Mercado Global</title>
     
     <link rel="stylesheet" href="./static/css/style.css">
     
 </head>
 <body>
-    <header class="topbar">
-        <a class="brand" href="#topo" aria-label="Início do dashboard">
-            <span class="brand-mark">IA</span>
-            <span>Dashboard</span>
-        </a>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <a class="brand" href="#topo" aria-label="Início do dashboard">
+                <span class="brand-mark">IA</span>
+                <span>
+                    <strong>IA</strong>
+                    <small>GOVERNANÇA</small>
+                </span>
+            </a>
 
-        <nav class="nav-links" aria-label="Seções do dashboard">
-            <a href="#investimentos">Investimentos</a>
-            <a href="#adocao">Adoção</a>
-            <a href="#ferramentas">Ferramentas</a>
-            <a href="#contexto">Contexto</a>
-        </nav>
+            <nav class="side-nav" aria-label="Menu principal">
+                <a class="active" href="#topo"><span>⌂</span> Visão Geral</a>
+                <a href="#bsc"><span>◎</span> BSC IA</a>
+                <a href="#kpis"><span>▥</span> KPIs</a>
+                <a href="#dados"><span>◫</span> Dados</a>
+                <a href="#arquitetura"><span>▣</span> Arquitetura</a>
+            </nav>
 
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar tema claro e escuro">
-            <span id="themeIcon" aria-hidden="true">◐</span>
-            <span>Tema</span>
-        </button>
-    </header>
+            <section class="sidebar-note">
+                <strong>Leitura estratégica</strong>
+                <p>Investimento, adoção, concentração de mercado e uso das ferramentas de IA.</p>
+            </section>
+        </aside>
 
-    <main id="topo" class="page-shell">
-        <section class="hero">
-            <div class="hero-copy">
-                <p class="eyebrow">Panorama global de tecnologia</p>
-                <h1>A Explosão da Inteligência Artificial</h1>
-                <p class="subtitle">
-                    Adoção, investimentos e impacto das ferramentas de IA no mercado global
-                </p>
-            </div>
-            <div class="hero-panel" aria-label="Resumo do tema">
-                <span class="pulse-dot"></span>
-                <strong>Dados reais e editáveis</strong>
-                <p>Investimentos da Our World in Data, CSV local e versão estática para apresentação.</p>
-            </div>
-        </section>
-
-        <section class="summary-grid" aria-label="Cards de resumo">
-            
-            <article class="summary-card reveal-card">
-                <span class="summary-label">Investimento global mais recente</span>
-                <strong>US$ 429.66 bi</strong>
-                <p>Global em 2025</p>
-            </article>
-            
-            <article class="summary-card reveal-card">
-                <span class="summary-label">País com maior investimento</span>
-                <strong>EUA</strong>
-                <p>US$ 301.02 bi em 2025</p>
-            </article>
-            
-            <article class="summary-card reveal-card">
-                <span class="summary-label">Investimento mais recente - EUA</span>
-                <strong>US$ 301.02 bi</strong>
-                <p>EUA em 2025</p>
-            </article>
-            
-            <article class="summary-card reveal-card">
-                <span class="summary-label">Investimento mais recente - China</span>
-                <strong>US$ 17.18 bi</strong>
-                <p>China em 2025</p>
-            </article>
-            
-            <article class="summary-card reveal-card">
-                <span class="summary-label">Investimento mais recente - Reino Unido</span>
-                <strong>US$ 10.18 bi</strong>
-                <p>Reino Unido em 2025</p>
-            </article>
-            
-            <article class="summary-card reveal-card">
-                <span class="summary-label">Investimento mais recente - Brasil</span>
-                <strong>US$ 1.44 bi</strong>
-                <p>Brasil em 2025</p>
-            </article>
-            
-        </section>
-
-        <section class="chart-section" id="investimentos">
-            
-
-            <div class="section-heading">
+        <main class="dashboard-main" id="topo">
+            <header class="dashboard-header">
                 <div>
-                    <p class="eyebrow">Capital e inovação</p>
-                    <h2>Investimento privado em IA</h2>
+                    <h1>Dashboard de Governança - Inteligência Artificial</h1>
+                    <p>Monitoramento estratégico com Balanced Scorecard, KPIs e indicadores de mercado global.</p>
                 </div>
 
-                <label class="select-control" for="countrySelect">
-                    <span>Visualização</span>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar tema claro e escuro">
+                        <span id="themeIcon" aria-hidden="true">◐</span>
+                        <span>Tema</span>
+                    </button>
+                    <span class="user-chip">AD</span>
+                </div>
+            </header>
+
+            <section class="filters-panel" aria-label="Filtros do dashboard">
+                <label class="filter-control" for="periodSelect">
+                    <span>Período</span>
+                    <select id="periodSelect" name="periodSelect">
+                        <option>2016 - 2025</option>
+                    </select>
+                </label>
+
+                <label class="filter-control" for="countrySelect">
+                    <span>País / região</span>
                     <select id="countrySelect" name="countrySelect"></select>
                 </label>
-            </div>
-            <div class="chart-frame">
-                <div id="investmentChart" class="chart" role="img" aria-label="Gráfico de investimento em IA por ano"></div>
-            </div>
-            <p class="source-note">
-                Fonte: Our World in Data, com dados derivados do AI Index Report / Stanford. Os valores representam
-                investimento privado externo em empresas de IA e não incluem investimento público, P&amp;D interno ou
-                infraestrutura própria.
-            </p>
-        </section>
 
-        <section class="dashboard-grid">
-            <article class="chart-section" id="adocao">
-                <div class="section-heading compact">
-                    <div>
-                        <p class="eyebrow">Transformação setorial</p>
-                        <h2>Adoção por setor</h2>
+                <label class="filter-control" for="indicatorSelect">
+                    <span>Indicador</span>
+                    <select id="indicatorSelect" name="indicatorSelect">
+                        <option>Investimento privado em IA</option>
+                        <option>Adoção por setor</option>
+                        <option>Uso de ferramentas</option>
+                    </select>
+                </label>
+
+                <button class="refresh-button" id="refreshDashboard" type="button">
+                    <span>↻</span>
+                    Atualizar
+                </button>
+            </section>
+
+            
+
+            <section class="bsc-cards" id="bsc" aria-label="Perspectivas do Balanced Scorecard">
+                
+                <article class="bsc-card reveal-card green">
+                    <div class="card-heading">
+                        <span class="card-icon">F</span>
+                        <div>
+                            <h2>Financeira</h2>
+                            <p>Objetivo: Monitorar o capital privado global em IA</p>
+                        </div>
                     </div>
-                </div>
-                <div class="chart-frame">
-                    <div id="sectorChart" class="chart" role="img" aria-label="Gráfico de adoção de IA por setor"></div>
-                </div>
-            </article>
-
-            <article class="chart-section" id="ferramentas">
-                <div class="section-heading compact">
-                    <div>
-                        <p class="eyebrow">Uso de ferramentas</p>
-                        <h2>Crescimento de usuários</h2>
+                    <span class="kpi-label">KPI</span>
+                    <p class="kpi-name">Investimento privado global</p>
+                    <div class="kpi-result">
+                        <strong>US$ 429.66 bi</strong>
+                        <span>Ano-base: 2025</span>
                     </div>
-                </div>
-                <div class="chart-frame">
-                    <div id="trafficChart" class="chart" role="img" aria-label="Gráfico de crescimento de usuários por ferramenta de IA"></div>
-                </div>
-            </article>
-        </section>
+                    <p class="trend-line">Variação anual: 89.0%</p>
+                </article>
+                
+                <article class="bsc-card reveal-card blue">
+                    <div class="card-heading">
+                        <span class="card-icon">M</span>
+                        <div>
+                            <h2>Mercado</h2>
+                            <p>Objetivo: Identificar os setores que adotam IA mais rápido</p>
+                        </div>
+                    </div>
+                    <span class="kpi-label">KPI</span>
+                    <p class="kpi-name">Setor líder: Tecnologia da Informação</p>
+                    <div class="kpi-result">
+                        <strong>82%</strong>
+                        <span>Referência: setores do CSV local</span>
+                    </div>
+                    <p class="trend-line">Adoção empresarial em expansão</p>
+                </article>
+                
+                <article class="bsc-card reveal-card purple">
+                    <div class="card-heading">
+                        <span class="card-icon">P</span>
+                        <div>
+                            <h2>Processos</h2>
+                            <p>Objetivo: Avaliar concentração internacional dos investimentos</p>
+                        </div>
+                    </div>
+                    <span class="kpi-label">KPI</span>
+                    <p class="kpi-name">Participação dos EUA no total global</p>
+                    <div class="kpi-result">
+                        <strong>70.1%</strong>
+                        <span>Base: Global x EUA em 2025</span>
+                    </div>
+                    <p class="trend-line">Capital concentrado em poucos mercados</p>
+                </article>
+                
+                <article class="bsc-card reveal-card teal">
+                    <div class="card-heading">
+                        <span class="card-icon">A</span>
+                        <div>
+                            <h2>Aprendizado</h2>
+                            <p>Objetivo: Acompanhar escala de uso das ferramentas de IA</p>
+                        </div>
+                    </div>
+                    <span class="kpi-label">KPI</span>
+                    <p class="kpi-name">Ferramenta líder: ChatGPT</p>
+                    <div class="kpi-result">
+                        <strong>320 mi</strong>
+                        <span>Usuários em milhões</span>
+                    </div>
+                    <p class="trend-line">Uso crescente em trabalho e estudo</p>
+                </article>
+                
+            </section>
 
-        <section class="context-section" id="contexto">
-            <div>
-                <p class="eyebrow">Relevância acadêmica</p>
-                <h2>Por que acompanhar a IA?</h2>
-            </div>
-            <div class="context-copy">
-                <p>
-                    A inteligência artificial é uma das maiores tendências atuais da tecnologia porque altera a forma como pessoas,
-                    empresas e governos lidam com informação, produtividade e inovação.
-                </p>
-                <p>
-                    Empresas estão usando IA para automação de processos, atendimento ao cliente, análise de dados, criação de
-                    conteúdo, programação, marketing e apoio à tomada de decisão. Esse avanço também exige debate sobre impactos
-                    econômicos, qualificação profissional, privacidade e responsabilidade no uso dos dados.
-                </p>
-                <p>
-                    Este dashboard combina investimento real de fonte pública com dados demonstrativos de adoção e ferramentas,
-                    permitindo analisar tendências de mercado de forma visual e simples para uma apresentação acadêmica.
-                </p>
-            </div>
-        </section>
-    </main>
+            <section class="analytics-grid" id="kpis">
+                <article class="panel panel-large">
+                    <div class="section-heading">
+                        <div>
+                            <h2>Tendência anual de investimento privado</h2>
+                            <p>Valores reais em bilhões de dólares, por país ou visão consolidada.</p>
+                        </div>
+                    </div>
+                    <div class="chart-frame">
+                        <div id="investmentChart" class="chart" role="img" aria-label="Gráfico de investimento privado em IA"></div>
+                    </div>
+                    <p class="source-note">
+                        Fonte: Our World in Data, com dados derivados do AI Index Report / Stanford. Os valores representam
+                        investimento privado externo em empresas de IA e não incluem investimento público, P&amp;D interno ou
+                        infraestrutura própria.
+                    </p>
+                </article>
 
-    <footer class="footer">
-        Dashboard desenvolvido para fins acadêmicos. Investimentos com fonte pública e demais dados demonstrativos para estudo.
-    </footer>
+                <article class="panel">
+                    <div class="section-heading compact">
+                        <div>
+                            <h2>Indicadores operacionais</h2>
+                            <p>Último ano comparado à média histórica.</p>
+                        </div>
+                    </div>
+                    <div class="chart-frame compact-frame">
+                        <div id="indicatorChart" class="chart chart-small" role="img" aria-label="Indicadores operacionais de investimento"></div>
+                    </div>
+                </article>
 
-    <script id="dashboardData" type="application/json">{"investimentos": {"erro": null, "ordem": ["Global", "EUA", "China", "Reino Unido", "Brasil"], "paises": {"Brasil": {"anos": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025], "valores": [0.02, 0.15, 0.29, 0.45, 0.65, 0.79, 1.62, 0.91, 0.79, 1.44]}, "China": {"anos": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025], "valores": [5.65, 7.76, 12.21, 7.7, 15.52, 18.35, 12.59, 9.42, 13.16, 17.18]}, "EUA": {"anos": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025], "valores": [21.84, 29.19, 59.74, 97.81, 77.27, 159.67, 90.15, 80.64, 152.49, 301.02]}, "Global": {"anos": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025], "valores": [42.56, 47.73, 96.36, 141.8, 166.99, 256.6, 180.59, 137.75, 227.3, 429.66]}, "Reino Unido": {"anos": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025], "valores": [3.52, 1.49, 2.52, 2.56, 4.49, 6.85, 6.88, 5.1, 5.96, 10.18]}}}, "setores": {"nomes": ["Jur\u00eddico", "Educa\u00e7\u00e3o", "Recursos Humanos", "Sa\u00fade", "Ind\u00fastria", "Varejo", "Finan\u00e7as", "Atendimento ao Cliente", "Marketing", "Tecnologia da Informa\u00e7\u00e3o"], "percentuais": [34, 39, 45, 48, 51, 56, 67, 69, 74, 82]}, "trafego": {"ChatGPT": {"anos": [2021, 2022, 2023, 2024, 2025], "valores": [0, 20, 180, 250, 320]}, "Claude": {"anos": [2021, 2022, 2023, 2024, 2025], "valores": [0, 1, 12, 35, 60]}, "Copilot": {"anos": [2021, 2022, 2023, 2024, 2025], "valores": [2, 8, 35, 75, 110]}, "Gemini": {"anos": [2021, 2022, 2023, 2024, 2025], "valores": [0, 0, 30, 80, 130]}, "Midjourney": {"anos": [2021, 2022, 2023, 2024, 2025], "valores": [1, 5, 18, 25, 32]}}}</script>
+                <article class="panel">
+                    <div class="section-heading compact">
+                        <div>
+                            <h2>Maturidade média de adoção</h2>
+                            <p>Média dos setores cadastrados no CSV local.</p>
+                        </div>
+                    </div>
+                    <div class="chart-frame compact-frame">
+                        <div id="adoptionDonut" class="chart chart-small" role="img" aria-label="Maturidade média de adoção de IA"></div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="analytics-grid lower-grid">
+                <article class="panel" id="dados">
+                    <div class="section-heading compact">
+                        <div>
+                            <h2>Adoção por setor</h2>
+                            <p>Setores com maior velocidade de adoção de IA.</p>
+                        </div>
+                    </div>
+                    <div class="chart-frame">
+                        <div id="sectorChart" class="chart" role="img" aria-label="Gráfico de adoção de IA por setor"></div>
+                    </div>
+                </article>
+
+                <article class="panel">
+                    <div class="section-heading compact">
+                        <div>
+                            <h2>Crescimento de usuários</h2>
+                            <p>Ferramentas de IA em milhões de usuários.</p>
+                        </div>
+                    </div>
+                    <div class="chart-frame">
+                        <div id="trafficChart" class="chart" role="img" aria-label="Gráfico de crescimento de usuários por ferramenta de IA"></div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="bottom-grid">
+                <article class="panel table-panel">
+                    <div class="section-heading compact">
+                        <div>
+                            <h2>Balanced Scorecard da IA - Resumo estratégico</h2>
+                            <p>Ligação entre perspectiva, objetivo, KPI e resultado apresentado.</p>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Perspectiva</th>
+                                    <th>Objetivo estratégico</th>
+                                    <th>KPI</th>
+                                    <th>Referência</th>
+                                    <th>Resultado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                <tr>
+                                    <td>Financeira</td>
+                                    <td>Monitorar o capital privado global em IA</td>
+                                    <td>Investimento privado global</td>
+                                    <td>Ano-base: 2025</td>
+                                    <td>US$ 429.66 bi</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>Mercado</td>
+                                    <td>Identificar os setores que adotam IA mais rápido</td>
+                                    <td>Setor líder: Tecnologia da Informação</td>
+                                    <td>Referência: setores do CSV local</td>
+                                    <td>82%</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>Processos</td>
+                                    <td>Avaliar concentração internacional dos investimentos</td>
+                                    <td>Participação dos EUA no total global</td>
+                                    <td>Base: Global x EUA em 2025</td>
+                                    <td>70.1%</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>Aprendizado</td>
+                                    <td>Acompanhar escala de uso das ferramentas de IA</td>
+                                    <td>Ferramenta líder: ChatGPT</td>
+                                    <td>Usuários em milhões</td>
+                                    <td>320 mi</td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <aside class="side-panels" id="arquitetura">
+                    <article class="panel architecture-panel">
+                        <h2>Arquitetura da solução</h2>
+                        <ul>
+                            <li><strong>Back-end:</strong> Flask</li>
+                            <li><strong>Tratamento:</strong> Pandas</li>
+                            <li><strong>Base:</strong> CSV local</li>
+                            <li><strong>Gráficos:</strong> Plotly</li>
+                            <li><strong>Deploy:</strong> HTML estático</li>
+                        </ul>
+                    </article>
+
+                    <article class="panel explanation-panel">
+                        <h2>Ideia central</h2>
+                        <p>
+                            O dashboard transforma dados de IA em indicadores de governança. A camada BSC separa a análise
+                            em finanças, mercado, processos e aprendizado, facilitando a leitura executiva.
+                        </p>
+                    </article>
+                </aside>
+            </section>
+
+            <footer class="footer">
+                Dashboard desenvolvido para fins acadêmicos. Investimentos com fonte pública e demais dados demonstrativos para estudo.
+            </footer>
+        </main>
+    </div>
+
+    <script id="dashboardData" type="application/json">{"bsc": [{"kpi": "Investimento privado global", "objective": "Monitorar o capital privado global em IA", "perspective": "Financeira", "result": "US$ 429.66 bi", "target": "Ano-base: 2025"}, {"kpi": "Setor l\u00edder: Tecnologia da Informa\u00e7\u00e3o", "objective": "Identificar os setores que adotam IA mais r\u00e1pido", "perspective": "Mercado", "result": "82%", "target": "Refer\u00eancia: setores do CSV local"}, {"kpi": "Participa\u00e7\u00e3o dos EUA no total global", "objective": "Avaliar concentra\u00e7\u00e3o internacional dos investimentos", "perspective": "Processos", "result": "70.1%", "target": "Base: Global x EUA em 2025"}, {"kpi": "Ferramenta l\u00edder: ChatGPT", "objective": "Acompanhar escala de uso das ferramentas de IA", "perspective": "Aprendizado", "result": "320 mi", "target": "Usu\u00e1rios em milh\u00f5es"}], "investimentos": {"erro": null, "indicadores": [{"ano": 2025, "media_historica": 172.73, "pais": "Global", "realizado": 429.66}, {"ano": 2025, "media_historica": 106.98, "pais": "EUA", "realizado": 301.02}, {"ano": 2025, "media_historica": 11.95, "pais": "China", "realizado": 17.18}, {"ano": 2025, "media_historica": 4.96, "pais": "Reino Unido", "realizado": 10.18}, {"ano": 2025, "media_historica": 0.71, "pais": "Brasil", "realizado": 1.44}], "ordem": ["Global", "EUA", "China", "Reino Unido", "Brasil"], "paises": {"Brasil": {"anos": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025], "valores": [0.02, 0.15, 0.29, 0.45, 0.65, 0.79, 1.62, 0.91, 0.79, 1.44]}, "China": {"anos": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025], "valores": [5.65, 7.76, 12.21, 7.7, 15.52, 18.35, 12.59, 9.42, 13.16, 17.18]}, "EUA": {"anos": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025], "valores": [21.84, 29.19, 59.74, 97.81, 77.27, 159.67, 90.15, 80.64, 152.49, 301.02]}, "Global": {"anos": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025], "valores": [42.56, 47.73, 96.36, 141.8, 166.99, 256.6, 180.59, 137.75, 227.3, 429.66]}, "Reino Unido": {"anos": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025], "valores": [3.52, 1.49, 2.52, 2.56, 4.49, 6.85, 6.88, 5.1, 5.96, 10.18]}}}, "setores": {"media": 56.5, "nomes": ["Jur\u00eddico", "Educa\u00e7\u00e3o", "Recursos Humanos", "Sa\u00fade", "Ind\u00fastria", "Varejo", "Finan\u00e7as", "Atendimento ao Cliente", "Marketing", "Tecnologia da Informa\u00e7\u00e3o"], "percentuais": [34, 39, 45, 48, 51, 56, 67, 69, 74, 82]}, "trafego": {"ChatGPT": {"anos": [2021, 2022, 2023, 2024, 2025], "valores": [0, 20, 180, 250, 320]}, "Claude": {"anos": [2021, 2022, 2023, 2024, 2025], "valores": [0, 1, 12, 35, 60]}, "Copilot": {"anos": [2021, 2022, 2023, 2024, 2025], "valores": [2, 8, 35, 75, 110]}, "Gemini": {"anos": [2021, 2022, 2023, 2024, 2025], "valores": [0, 0, 30, 80, 130]}, "Midjourney": {"anos": [2021, 2022, 2023, 2024, 2025], "valores": [1, 5, 18, 25, 32]}}}</script>
     
     <script src="./static/js/plotly.min.js"></script>
     <script src="./static/js/script.js"></script>

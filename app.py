@@ -360,6 +360,134 @@ def montar_cards_investimento(investimentos, erro_investimentos=None):
     return cards
 
 
+def obter_linha_mais_recente(df, coluna_grupo, grupo):
+    """Retorna a linha mais recente de um grupo em qualquer dataset."""
+    dados_grupo = df[df[coluna_grupo] == grupo].sort_values("ano")
+    if dados_grupo.empty:
+        return None
+    return dados_grupo.iloc[-1]
+
+
+def montar_cards_bsc(investimentos, setores, trafego, erro_investimentos=None):
+    """Monta os cards no formato de Balanced Scorecard para a tela principal."""
+    if investimentos.empty:
+        return [
+            {
+                "perspective": "Financeira",
+                "objective": "Monitorar capital privado em IA",
+                "kpi": "Investimento privado global",
+                "value": "Indisponível",
+                "goal": "Fonte real não carregada",
+                "trend": erro_investimentos or "Sem dados reais disponíveis",
+                "accent": "green",
+            }
+        ]
+
+    global_recente = ultimo_registro_pais(investimentos, "Global")
+    global_anterior = (
+        investimentos[investimentos["pais"] == "Global"].sort_values("ano").iloc[-2]
+        if len(investimentos[investimentos["pais"] == "Global"]) > 1
+        else None
+    )
+    crescimento_global = 0
+    if global_recente is not None and global_anterior is not None:
+        crescimento_global = (
+            (global_recente["investimento_bilhoes"] - global_anterior["investimento_bilhoes"])
+            / global_anterior["investimento_bilhoes"]
+            * 100
+        )
+
+    setor_lider = setores.loc[setores["percentual_adocao"].idxmax()]
+    ferramenta_final = (
+        trafego.sort_values("ano")
+        .groupby("ferramenta")["usuarios_milhoes"]
+        .last()
+        .sort_values(ascending=False)
+    )
+    ferramenta_lider = ferramenta_final.index[0]
+    usuarios_lider = ferramenta_final.iloc[0]
+
+    eua_recente = ultimo_registro_pais(investimentos, "EUA")
+    concentracao_eua = 0
+    if global_recente is not None and eua_recente is not None and global_recente["investimento_bilhoes"]:
+        concentracao_eua = (
+            eua_recente["investimento_bilhoes"] / global_recente["investimento_bilhoes"] * 100
+        )
+
+    return [
+        {
+            "perspective": "Financeira",
+            "objective": "Monitorar o capital privado global em IA",
+            "kpi": "Investimento privado global",
+            "value": formatar_bilhoes(global_recente["investimento_bilhoes"]),
+            "goal": f"Ano-base: {int(global_recente['ano'])}",
+            "trend": f"Variação anual: {crescimento_global:.1f}%",
+            "accent": "green",
+        },
+        {
+            "perspective": "Mercado",
+            "objective": "Identificar os setores que adotam IA mais rápido",
+            "kpi": f"Setor líder: {setor_lider['setor']}",
+            "value": f"{setor_lider['percentual_adocao']:.0f}%",
+            "goal": "Referência: setores do CSV local",
+            "trend": "Adoção empresarial em expansão",
+            "accent": "blue",
+        },
+        {
+            "perspective": "Processos",
+            "objective": "Avaliar concentração internacional dos investimentos",
+            "kpi": "Participação dos EUA no total global",
+            "value": f"{concentracao_eua:.1f}%",
+            "goal": f"Base: Global x EUA em {int(global_recente['ano'])}",
+            "trend": "Capital concentrado em poucos mercados",
+            "accent": "purple",
+        },
+        {
+            "perspective": "Aprendizado",
+            "objective": "Acompanhar escala de uso das ferramentas de IA",
+            "kpi": f"Ferramenta líder: {ferramenta_lider}",
+            "value": f"{usuarios_lider:.0f} mi",
+            "goal": "Usuários em milhões",
+            "trend": "Uso crescente em trabalho e estudo",
+            "accent": "teal",
+        },
+    ]
+
+
+def montar_indicadores_operacionais(investimentos):
+    """Compara o ultimo valor real com a media historica de cada pais."""
+    indicadores = []
+    for pais in ORDEM_PAISES_INVESTIMENTO:
+        grupo = investimentos[investimentos["pais"] == pais].sort_values("ano")
+        if grupo.empty:
+            continue
+
+        ultimo = grupo.iloc[-1]
+        indicadores.append(
+            {
+                "pais": pais,
+                "ano": int(ultimo["ano"]),
+                "realizado": round(float(ultimo["investimento_bilhoes"]), 2),
+                "media_historica": round(float(grupo["investimento_bilhoes"].mean()), 2),
+            }
+        )
+    return indicadores
+
+
+def montar_resumo_bsc(cards_bsc):
+    """Cria linhas da tabela de resumo estrategico exibida abaixo dos graficos."""
+    return [
+        {
+            "perspective": card["perspective"],
+            "objective": card["objective"],
+            "kpi": card["kpi"],
+            "target": card["goal"],
+            "result": card["value"],
+        }
+        for card in cards_bsc
+    ]
+
+
 def preparar_dados():
     """Carrega, limpa e organiza os dados usados pelo HTML e JavaScript."""
     garantir_csvs_exemplo()
@@ -389,7 +517,10 @@ def preparar_dados():
     trafego = trafego.dropna(subset=["ano", "ferramenta", "usuarios_milhoes"])
     trafego["ano"] = trafego["ano"].astype(int)
 
-    cards = montar_cards_investimento(investimentos, erro_investimentos)
+    cards = montar_cards_bsc(investimentos, setores, trafego, erro_investimentos)
+    resumo_bsc = montar_resumo_bsc(cards)
+    indicadores_operacionais = montar_indicadores_operacionais(investimentos)
+    media_adocao = float(setores["percentual_adocao"].mean()) if not setores.empty else 0
 
     investimento_paises = {}
     for pais in ORDEM_PAISES_INVESTIMENTO:
@@ -416,12 +547,15 @@ def preparar_dados():
             "paises": investimento_paises,
             "ordem": [pais for pais in ORDEM_PAISES_INVESTIMENTO if pais in investimento_paises],
             "erro": erro_investimentos,
+            "indicadores": indicadores_operacionais,
         },
         "setores": {
             "nomes": setores_ordenados["setor"].tolist(),
             "percentuais": setores_ordenados["percentual_adocao"].round(2).tolist(),
+            "media": round(media_adocao, 2),
         },
         "trafego": trafego_series,
+        "bsc": resumo_bsc,
     }
 
     return cards, dados_dashboard

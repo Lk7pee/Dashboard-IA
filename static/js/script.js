@@ -2,33 +2,34 @@ const dashboardDataElement = document.getElementById("dashboardData");
 const dashboardData = dashboardDataElement ? JSON.parse(dashboardDataElement.textContent) : {};
 
 const colors = {
-    cyan: "#42d8ff",
-    violet: "#9b7cff",
-    green: "#35e0a1",
-    yellow: "#ffd166",
-    red: "#ff6b8a",
-    blue: "#4da3ff",
-    orange: "#ff9f43",
-    textDark: "#f5f8ff",
-    textLight: "#0d1729",
+    blue: "#0f55c8",
+    blueDark: "#09357c",
+    green: "#159447",
+    teal: "#0aa1a7",
+    purple: "#7a45c7",
+    amber: "#c98513",
+    red: "#d84b6b",
+    text: "#13213c",
+    muted: "#64728a",
+    lightText: "#f5f8ff",
 };
 
 const countryColors = {
-    Global: colors.cyan,
-    EUA: colors.green,
-    China: colors.red,
-    "Reino Unido": colors.violet,
-    Brasil: colors.yellow,
+    Global: "#0f55c8",
+    EUA: "#159447",
+    China: "#d84b6b",
+    "Reino Unido": "#7a45c7",
+    Brasil: "#c98513",
 };
 
-const toolColors = [colors.cyan, colors.violet, colors.green, colors.yellow, colors.red, colors.blue];
+const toolColors = [colors.blue, colors.green, colors.purple, colors.amber, colors.red, colors.teal];
 const plotConfig = {
     displayModeBar: false,
     responsive: true,
 };
 
-function isLightTheme() {
-    return document.body.classList.contains("light-theme");
+function isDarkTheme() {
+    return document.body.classList.contains("dark-theme");
 }
 
 function isNarrowScreen() {
@@ -47,26 +48,26 @@ function safeLocalStorageSet(key, value) {
     try {
         localStorage.setItem(key, value);
     } catch {
-        // A abertura direta por arquivo pode bloquear localStorage em alguns navegadores.
+        // Navegadores podem bloquear localStorage quando o HTML e aberto por arquivo.
     }
 }
 
 function chartTheme() {
-    const light = isLightTheme();
+    const dark = isDarkTheme();
     return {
         paper_bgcolor: "rgba(0,0,0,0)",
         plot_bgcolor: "rgba(0,0,0,0)",
         font: {
-            color: light ? colors.textLight : colors.textDark,
+            color: dark ? colors.lightText : colors.text,
             family: "Arial, Helvetica, sans-serif",
         },
         xaxis: {
-            gridcolor: light ? "rgba(13,23,41,0.1)" : "rgba(255,255,255,0.1)",
-            zerolinecolor: light ? "rgba(13,23,41,0.14)" : "rgba(255,255,255,0.14)",
+            gridcolor: dark ? "rgba(255,255,255,0.1)" : "rgba(19,33,60,0.1)",
+            zerolinecolor: dark ? "rgba(255,255,255,0.14)" : "rgba(19,33,60,0.14)",
         },
         yaxis: {
-            gridcolor: light ? "rgba(13,23,41,0.1)" : "rgba(255,255,255,0.1)",
-            zerolinecolor: light ? "rgba(13,23,41,0.14)" : "rgba(255,255,255,0.14)",
+            gridcolor: dark ? "rgba(255,255,255,0.1)" : "rgba(19,33,60,0.1)",
+            zerolinecolor: dark ? "rgba(255,255,255,0.14)" : "rgba(19,33,60,0.14)",
         },
     };
 }
@@ -76,13 +77,13 @@ function baseLayout(extraLayout = {}) {
     return {
         ...theme,
         margin: isNarrowScreen()
-            ? { t: 42, r: 12, b: 56, l: 44 }
-            : { t: 34, r: 26, b: 56, l: 62 },
+            ? { t: 44, r: 14, b: 56, l: 48 }
+            : { t: 38, r: 26, b: 56, l: 62 },
         hovermode: "closest",
         legend: {
             orientation: "h",
             x: 0,
-            y: 1.14,
+            y: 1.15,
             font: { size: isNarrowScreen() ? 10 : 12 },
         },
         ...extraLayout,
@@ -127,14 +128,14 @@ function createInvestmentTrace(country, source, selectedMode = false) {
         mode: "lines+markers",
         name: country,
         line: {
-            color: countryColors[country] || colors.cyan,
+            color: countryColors[country] || colors.blue,
             width: selectedMode ? 4 : 3,
             shape: "spline",
         },
         marker: {
             size: selectedMode ? 9 : 7,
-            color: countryColors[country] || colors.cyan,
-            line: { color: "rgba(255,255,255,0.35)", width: 1 },
+            color: countryColors[country] || colors.blue,
+            line: { color: "#ffffff", width: 1 },
         },
         hovertemplate: `${country}<br>Ano %{x}<br>US$ %{y:.2f} bi<extra></extra>`,
     };
@@ -176,7 +177,104 @@ function renderInvestmentChart(selected = "todos") {
     Plotly.newPlot("investmentChart", traces, layout, plotConfig);
 }
 
+function renderIndicatorChart() {
+    const indicators = dashboardData.investimentos?.indicadores || [];
+    const chart = document.getElementById("indicatorChart");
+
+    if (!chart || !indicators.length) {
+        return;
+    }
+
+    const countries = indicators.map((item) => item.pais);
+    const realized = indicators.map((item) => item.realizado);
+    const average = indicators.map((item) => item.media_historica);
+
+    const traces = [
+        {
+            x: countries,
+            y: realized,
+            type: "bar",
+            name: "Último ano",
+            marker: { color: colors.green },
+            hovertemplate: "%{x}<br>Último ano: US$ %{y:.2f} bi<extra></extra>",
+        },
+        {
+            x: countries,
+            y: average,
+            type: "scatter",
+            mode: "markers",
+            name: "Média histórica",
+            marker: {
+                color: colors.blue,
+                size: 10,
+                symbol: "diamond",
+            },
+            hovertemplate: "%{x}<br>Média histórica: US$ %{y:.2f} bi<extra></extra>",
+        },
+    ];
+
+    const layout = baseLayout({
+        margin: { t: 38, r: 12, b: isNarrowScreen() ? 80 : 58, l: 48 },
+        barmode: "group",
+        xaxis: {
+            ...chartTheme().xaxis,
+            tickangle: isNarrowScreen() ? -30 : 0,
+        },
+        yaxis: {
+            ...chartTheme().yaxis,
+            title: "US$ bi",
+            rangemode: "tozero",
+        },
+    });
+
+    Plotly.newPlot("indicatorChart", traces, layout, plotConfig);
+}
+
+function renderAdoptionDonut() {
+    const chart = document.getElementById("adoptionDonut");
+    if (!chart) {
+        return;
+    }
+
+    const average = Number(dashboardData.setores?.media || 0);
+    const remaining = Math.max(0, 100 - average);
+
+    const trace = {
+        values: [average, remaining],
+        labels: ["Adoção média", "Potencial"],
+        type: "pie",
+        hole: 0.68,
+        marker: { colors: [colors.green, "#dfe6f0"] },
+        textinfo: "none",
+        hovertemplate: "%{label}: %{value:.1f}%<extra></extra>",
+    };
+
+    const layout = baseLayout({
+        showlegend: false,
+        margin: { t: 8, r: 8, b: 8, l: 8 },
+        annotations: [
+            {
+                text: `<b>${average.toFixed(1)}%</b><br>Adoção`,
+                x: 0.5,
+                y: 0.5,
+                showarrow: false,
+                font: {
+                    size: isNarrowScreen() ? 20 : 24,
+                    color: isDarkTheme() ? colors.lightText : colors.green,
+                },
+            },
+        ],
+    });
+
+    Plotly.newPlot("adoptionDonut", [trace], layout, plotConfig);
+}
+
 function renderSectorChart() {
+    const chart = document.getElementById("sectorChart");
+    if (!chart) {
+        return;
+    }
+
     const trace = {
         x: dashboardData.setores.percentuais,
         y: dashboardData.setores.nomes,
@@ -185,11 +283,11 @@ function renderSectorChart() {
         marker: {
             color: dashboardData.setores.percentuais,
             colorscale: [
-                [0, colors.blue],
-                [0.55, colors.cyan],
+                [0, "#b7d7ff"],
+                [0.55, colors.blue],
                 [1, colors.green],
             ],
-            line: { color: "rgba(255,255,255,0.18)", width: 1 },
+            line: { color: "rgba(19,33,60,0.18)", width: 1 },
         },
         hovertemplate: "%{y}<br>%{x:.0f}% de adoção<extra></extra>",
     };
@@ -215,6 +313,11 @@ function renderSectorChart() {
 }
 
 function renderTrafficChart() {
+    const chart = document.getElementById("trafficChart");
+    if (!chart) {
+        return;
+    }
+
     const traces = Object.entries(dashboardData.trafego).map(([tool, source], index) => ({
         x: source.anos,
         y: source.valores,
@@ -256,12 +359,14 @@ function renderAllCharts() {
 
     const select = document.getElementById("countrySelect");
     renderInvestmentChart(select?.value || "todos");
+    renderIndicatorChart();
+    renderAdoptionDonut();
     renderSectorChart();
     renderTrafficChart();
 }
 
 function setupThemeToggle() {
-    const savedTheme = safeLocalStorageGet("dashboard-theme");
+    const savedTheme = safeLocalStorageGet("dashboard-governance-theme");
     const button = document.getElementById("themeToggle");
     const icon = document.getElementById("themeIcon");
 
@@ -269,48 +374,48 @@ function setupThemeToggle() {
         return;
     }
 
-    if (savedTheme === "light") {
-        document.body.classList.add("light-theme");
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark-theme");
         icon.textContent = "☀";
     }
 
     button.addEventListener("click", () => {
-        document.body.classList.toggle("light-theme");
-        const light = isLightTheme();
-        icon.textContent = light ? "☀" : "◐";
-        safeLocalStorageSet("dashboard-theme", light ? "light" : "dark");
+        document.body.classList.toggle("dark-theme");
+        const dark = isDarkTheme();
+        icon.textContent = dark ? "☀" : "◐";
+        safeLocalStorageSet("dashboard-governance-theme", dark ? "dark" : "light");
         renderAllCharts();
     });
 }
 
 function revealCards() {
     document.querySelectorAll(".reveal-card").forEach((card, index) => {
-        window.setTimeout(() => card.classList.add("is-visible"), 110 * index);
+        window.setTimeout(() => card.classList.add("is-visible"), 100 * index);
     });
 }
 
-function setupCardInteraction() {
-    document.querySelectorAll(".summary-card").forEach((card) => {
-        card.addEventListener("mousemove", (event) => {
-            const rect = card.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
-            card.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(66,216,255,0.16), transparent 8rem), linear-gradient(180deg, var(--panel), rgba(255,255,255,0.03))`;
-        });
+function setupRefreshButton() {
+    const button = document.getElementById("refreshDashboard");
+    if (!button) {
+        return;
+    }
 
-        card.addEventListener("mouseleave", () => {
-            card.style.background = "";
-        });
+    button.addEventListener("click", () => {
+        renderAllCharts();
+        button.classList.add("is-updated");
+        window.setTimeout(() => button.classList.remove("is-updated"), 450);
     });
 }
 
 function setupResizeHandler() {
+    let resizeTimer;
     window.addEventListener("resize", () => {
         if (typeof Plotly === "undefined") {
             return;
         }
 
-        renderAllCharts();
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(renderAllCharts, 180);
     });
 }
 
@@ -318,7 +423,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setupThemeToggle();
     populateCountrySelect();
     revealCards();
-    setupCardInteraction();
+    setupRefreshButton();
     renderAllCharts();
     setupResizeHandler();
 });
